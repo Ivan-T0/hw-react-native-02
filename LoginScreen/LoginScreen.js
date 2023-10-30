@@ -5,10 +5,14 @@ import {
   TextInput,
   TouchableOpacity,
   ImageBackground,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 
 import { useFonts } from "expo-font";
 import Background from "../assets/background.png";
+import { useState } from "react";
 
 const LoginScreen = () => {
   const [fontsLoaded] = useFonts({
@@ -16,43 +20,66 @@ const LoginScreen = () => {
     "Roboto-Light": require("../Fonts/Roboto-Light.ttf"),
   });
 
+  const [emailText, setEmailText] = useState("");
+  const [passwordText, setPasswordText] = useState("");
+
+  const onLogin = () => {
+    console.log(`
+      email - ${emailText}
+      password - ${passwordText}`);
+  };
+
   if (!fontsLoaded) {
     return null;
   }
 
   return (
-    <View>
-      <ImageBackground style={styles.bg} source={Background}>
-        <View style={styles.container}>
-          <Text style={styles.title}>Увійти</Text>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View>
+        <ImageBackground style={styles.bg} source={Background}>
+          <KeyboardAvoidingView
+            style={styles.Keyboard}
+            behavior={Platform.OS == "ios" ? "padding" : "height"}
+          >
+            <View style={styles.container}>
+              <Text style={styles.title}>Увійти</Text>
+              <TextInput
+                style={[styles.placeholderText, { color: "black" }]}
+                placeholder="Адреса електронної пошти"
+                value={emailText}
+                onChangeText={setEmailText}
+              />
+              <View style={styles.passwordInput}>
+                <TextInput
+                  style={[styles.placeholderText, { color: "black" }]}
+                  placeholder="Пароль"
+                  value={passwordText}
+                  onChangeText={setPasswordText}
+                />
 
-          <TextInput
-            style={styles.placeholderText}
-            placeholder="Адреса електронної пошти"
-          />
-          <View style={styles.passwordInput}>
-            <TextInput style={styles.placeholderText} placeholder="Пароль" />
-
-            <Text style={styles.text}>Показати</Text>
-          </View>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>Увійти</Text>
-          </TouchableOpacity>
-          <Text style={styles.LoginText}>Немає акаунту? Зареєструватися</Text>
-        </View>
-      </ImageBackground>
-    </View>
+                <Text style={styles.text}>Показати</Text>
+              </View>
+              <TouchableOpacity style={styles.button} onPress={onLogin}>
+                <Text style={styles.buttonText}>Увійти</Text>
+              </TouchableOpacity>
+              <Text style={styles.LText}>Немає акаунту? Зареєструватися</Text>
+            </View>
+          </KeyboardAvoidingView>
+        </ImageBackground>
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    height: 549,
+    height: 500,
     backgroundColor: "#FFFFFF",
     marginTop: 323,
     paddingLeft: 16,
     paddingRight: 16,
   },
+  Keyboard: { justifyContent: "flex-end" },
   add: {
     position: "absolute",
     top: 20,
@@ -129,7 +156,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: "center",
   },
-  LoginText: {
+  LText: {
     color: "#1B4371",
     textAlign: "center",
     fontFamily: "Roboto-Light",

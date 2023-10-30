@@ -5,60 +5,97 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
+  TouchableWithoutFeedback,
+  Keyboard,
   ImageBackground,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 
 import { useFonts } from "expo-font";
 import Background from "../assets/background.png";
 import Rectangle from "../assets/Image.jpg";
 import add from "../assets/add1.png";
+import { useState } from "react";
 const RegistrationScreen = () => {
   const [fontsLoaded] = useFonts({
     "Roboto-Regular": require("../Fonts/Roboto-Regular.ttf"),
     "Roboto-Light": require("../Fonts/Roboto-Light.ttf"),
   });
+  const [loginText, setLoginText] = useState("");
+  const [emailText, setEmailText] = useState("");
+  const [passwordText, setPasswordText] = useState("");
+
+  const onLogin = () => {
+    console.log(`login - ${loginText}
+      email - ${emailText}
+      password - ${passwordText}`);
+  };
 
   if (!fontsLoaded) {
     return null;
   }
 
   return (
-    <View>
-      <ImageBackground style={styles.bg} source={Background}>
-        <View style={styles.container}>
-          <TouchableOpacity>
-            <Image style={styles.image} source={Rectangle} />
-            <Image style={styles.add} source={add} />
-          </TouchableOpacity>
-          <Text style={styles.title}>Реєстрація</Text>
-          <TextInput style={styles.placeholderText} placeholder="Логін" />
-          <TextInput
-            style={styles.placeholderText}
-            placeholder="Адреса електронної пошти"
-          />
-          <View style={styles.passwordInput}>
-            <TextInput style={styles.placeholderText} placeholder="Пароль" />
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View>
+        <ImageBackground style={styles.bg} source={Background}>
+          <KeyboardAvoidingView
+            style={styles.Keyboard}
+            behavior={Platform.OS == "ios" ? "padding" : "height"}
+          >
+            <View style={styles.container}>
+              <TouchableOpacity>
+                <Image style={styles.image} source={Rectangle} />
+                <Image style={styles.add} source={add} />
+              </TouchableOpacity>
 
-            <Text style={styles.text}>Показати</Text>
-          </View>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>Зареєстуватися</Text>
-          </TouchableOpacity>
-          <Text style={styles.LoginText}>Вже є акаунт? Увійти</Text>
-        </View>
-      </ImageBackground>
-    </View>
+              <Text style={styles.title}>Реєстрація</Text>
+              <TextInput
+                style={[styles.placeholderText, { color: "black" }]}
+                placeholder="Логін"
+                value={loginText}
+                onChangeText={setLoginText}
+              />
+              <TextInput
+                style={[styles.placeholderText, { color: "black" }]}
+                placeholder="Адреса електронної пошти"
+                value={emailText}
+                onChangeText={setEmailText}
+              />
+              <View style={styles.passwordInput}>
+                <TextInput
+                  style={[styles.placeholderText, { color: "black" }]}
+                  placeholder="Пароль"
+                  value={passwordText}
+                  onChangeText={setPasswordText}
+                />
+
+                <Text style={styles.text}>Показати</Text>
+              </View>
+
+              <TouchableOpacity style={styles.button} onPress={onLogin}>
+                <Text style={styles.buttonText}>Зареєстуватися</Text>
+              </TouchableOpacity>
+              <Text style={styles.LoginText}>Вже є акаунт? Увійти</Text>
+            </View>
+          </KeyboardAvoidingView>
+        </ImageBackground>
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    height: 549,
+    height: 500,
     backgroundColor: "#FFFFFF",
     marginTop: 243,
     paddingLeft: 16,
     paddingRight: 16,
   },
+  Keyboard: { justifyContent: "flex-end" },
+
   add: {
     position: "absolute",
     top: 20,
