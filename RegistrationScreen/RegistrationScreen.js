@@ -17,7 +17,7 @@ import Background from "../assets/background.png";
 import Rectangle from "../assets/Image.jpg";
 import add from "../assets/add1.png";
 import { useState } from "react";
-const RegistrationScreen = () => {
+const RegistrationScreen = ({ navigation }) => {
   const [fontsLoaded] = useFonts({
     "Roboto-Regular": require("../Fonts/Roboto-Regular.ttf"),
     "Roboto-Light": require("../Fonts/Roboto-Light.ttf"),
@@ -77,7 +77,9 @@ const RegistrationScreen = () => {
               <TouchableOpacity style={styles.button} onPress={onLogin}>
                 <Text style={styles.buttonText}>Зареєстуватися</Text>
               </TouchableOpacity>
-              <Text style={styles.LoginText}>Вже є акаунт? Увійти</Text>
+              <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+                <Text style={styles.LoginText}>Вже є акаунт? Увійти</Text>
+              </TouchableOpacity>
             </View>
           </KeyboardAvoidingView>
         </ImageBackground>

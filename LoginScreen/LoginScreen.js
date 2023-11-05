@@ -14,7 +14,7 @@ import { useFonts } from "expo-font";
 import Background from "../assets/background.png";
 import { useState } from "react";
 
-const LoginScreen = () => {
+const LoginScreen = ({ navigation }) => {
   const [fontsLoaded] = useFonts({
     "Roboto-Regular": require("../Fonts/Roboto-Regular.ttf"),
     "Roboto-Light": require("../Fonts/Roboto-Light.ttf"),
@@ -59,10 +59,18 @@ const LoginScreen = () => {
 
                 <Text style={styles.text}>Показати</Text>
               </View>
-              <TouchableOpacity style={styles.button} onPress={onLogin}>
+
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => navigation.navigate("Home")}
+              >
                 <Text style={styles.buttonText}>Увійти</Text>
               </TouchableOpacity>
-              <Text style={styles.LText}>Немає акаунту? Зареєструватися</Text>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("Registration")}
+              >
+                <Text style={styles.LText}>Немає акаунту? Зареєструватися</Text>
+              </TouchableOpacity>
             </View>
           </KeyboardAvoidingView>
         </ImageBackground>
