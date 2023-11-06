@@ -11,17 +11,6 @@ import Icon from "react-native-vector-icons/Feather";
 // Клік по іконці №3 веде на екран ProfileScreen
 // В хедері на екрані PostsScreen додати іконку для logout
 const Tabs = createBottomTabNavigator();
-function Posts() {
-  return <PostsScreen />;
-}
-
-function CreatePosts() {
-  return <CreatePostsScreen />;
-}
-
-function Profile() {
-  return <ProfileScreen />;
-}
 
 const Home = () => {
   return (
