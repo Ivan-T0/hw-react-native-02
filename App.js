@@ -1,13 +1,16 @@
 import "react-native-gesture-handler";
-import LoginScreen from "../Screens/LoginScreen/LoginScreen";
-import MapScreen from "../Screens/MapScreen/MapScreen";
-import CommentsScreen from "../Screens/CommentsScreen/CommentsScreen";
-import RegistrationScreen from "../Screens/RegistrationScreen/RegistrationScreen";
-import { useFonts } from "expo-font";
+import { PersistGate } from "redux-persist/integration/react";
+import { Provider } from "react-redux";
+import store from "./redux/store";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
-import PostsScreen from "./PostsScreen/PostsScreen";
-import Home from "../Screens/Home/Home";
+import LoginScreen from "./src/LoginScreen/LoginScreen";
+import MapScreen from "./src/MapScreen/MapScreen";
+import CommentsScreen from "./src/CommentsScreen/CommentsScreen";
+import RegistrationScreen from "./src/RegistrationScreen/RegistrationScreen";
+import { useFonts } from "expo-font";
+
+import Home from "./src/Home/Home";
 import { TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/Feather";
 
@@ -22,33 +25,40 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer>
-      <MainStack.Navigator initialRouteName="Login">
-        <MainStack.Screen name="Registration" component={RegistrationScreen} />
-        <MainStack.Screen name="Login" component={LoginScreen} />
-        <MainStack.Screen name="Home" component={Home} />
-        <MainStack.Screen
-          name="MapScreen"
-          component={MapScreen}
-          options={{ headerShown: false }}
-        />
-        <MainStack.Screen
-          name="Comments"
-          component={CommentsScreen}
-          options={({ navigation }) => ({
-            title: "Коментарі",
-            headerLeft: () => (
-              <TouchableOpacity
-                style={{ paddingLeft: 16 }}
-                onPress={() => navigation.goBack()}
-              >
-                <Icon name="arrow-left" color={"#212121CC"} size={24} />
-              </TouchableOpacity>
-            ),
-            tabBarStyle: { display: "none" },
-          })}
-        />
-      </MainStack.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <NavigationContainer>
+          <MainStack.Navigator initialRouteName="Login">
+            <MainStack.Screen
+              name="Registration"
+              component={RegistrationScreen}
+            />
+            <MainStack.Screen name="Login" component={LoginScreen} />
+            <MainStack.Screen name="Home" component={Home} />
+            <MainStack.Screen
+              name="MapScreen"
+              component={MapScreen}
+              options={{ headerShown: false }}
+            />
+            <MainStack.Screen
+              name="Comments"
+              component={CommentsScreen}
+              options={({ navigation }) => ({
+                title: "Коментарі",
+                headerLeft: () => (
+                  <TouchableOpacity
+                    style={{ paddingLeft: 16 }}
+                    onPress={() => navigation.goBack()}
+                  >
+                    <Icon name="arrow-left" color={"#212121CC"} size={24} />
+                  </TouchableOpacity>
+                ),
+                tabBarStyle: { display: "none" },
+              })}
+            />
+          </MainStack.Navigator>
+        </NavigationContainer>
+      </PersistGate>
+    </Provider>
   );
 }

@@ -7,9 +7,9 @@ import {
   Text,
   View,
 } from "react-native";
-import background from "../../Screens/assets/background.png";
-import add from "../../Screens/assets/add1.png";
-import users from "../../Screens/assets/user.json";
+import background from "../../assets/background.png";
+import add from "../../assets/add1.png";
+import users from "../../assets/user.json";
 import { useState } from "react";
 import Icon from "react-native-vector-icons/Feather";
 
